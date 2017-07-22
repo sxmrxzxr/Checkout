@@ -1,0 +1,13 @@
+.large{
+    height:70%;
+    overflow: hidden;
+    width: 100%;
+    background:
+      /* top, transparent red, faked with gradient */ 
+          linear-gradient(
+            rgba(0, 0, 0, 0.6), 
+            rgba(0, 0, 0, 0.6)
+          ),
+          /* bottom, image */
+          url("../img/city.jpg");
+}

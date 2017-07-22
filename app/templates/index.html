@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}">
+    </head>
+    <body>
+        <nav class="navbar navbar-toggleable-md navbar-light"
+        style="background-color: #0D47A1;">
+          <img src="{{ url_for('static', filename='img/footprint.png') }}"
+          style="height: 40px;width:auto;margin-right: 10px">
+          <a class="navbar-brand" href="#" style="color: white">Footprint</a>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto" style="color: white">
+              <li class="nav-item">
+                <a class="nav-link" href="#" style="color: white">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" style="color: white">Get Started</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" style="color: white">Learn More</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="text" placeholder="Search">
+              <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+        <div class="large">
+            <div class="container">
+                <br>
+                <h1 style="font-size: 100px; color: white;">Footprint</h1>
+                <div style="height: 3px; width: 100%; background-color: white;
+                margin-top: 20px; margin-bottom: 20px;"></div>
+                <p style="font-size: 50px; color: white;">You leave a trail on the internet, see what it says about you</p>
+            </div>
+        </div>
+        <div class="container">
+        </div>
+    </body>
+</html>
