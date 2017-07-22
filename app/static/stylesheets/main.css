@@ -1,5 +1,42 @@
+.btn-login{
+    border: none;
+    border-radius: 0 !important;
+}
+.btn-gs{
+    border: none;
+    border-radius: 0 !important;
+    color: #0D47A1 !important;
+}
+
+.btn-gs:hover{
+    cursor: pointer;
+    background-color: white !important;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+}
+
+.btn-lm{
+    border: none;
+    border-radius: 0 !important;
+    color: white !important;
+    background-color: #0D47A1 !important;
+    margin-left: 10px;
+}
+
+.btn-lm:hover{
+    cursor: pointer;
+    -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+}
+
 .large{
-    height:70%;
+    position: relative;
+    height:60%;
+    min-height: 800px;
     overflow: hidden;
     width: 100%;
     background:
@@ -9,5 +46,17 @@
             rgba(0, 0, 0, 0.6)
           ),
           /* bottom, image */
-          url("../img/city.jpg");
+          url("../img/ny.jpg");   
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    -webkit-clip-path: polygon(100% 0, 100% 78%, 67% 95%, 36% 81%, 0 100%, 0 0);
+    clip-path: polygon(100% 0, 100% 78%, 67% 95%, 36% 81%, 0 100%, 0 0);
+}
+
+#bar-break{
+    height: 3px;
+    background-color: white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
 }
