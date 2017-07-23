@@ -1,5 +1,6 @@
+/* main page CSS */
 .btn-signup{
-    border: none !important;
+    border-color: white;
     border-radius: 0 !important;
     margin-right: 5px;
     margin-left: 5px;
@@ -70,7 +71,6 @@
           ),
           /* bottom, image */
           url("../img/ny.jpg");   
-    background-size: 100% auto;
     background-repeat: no-repeat;
     -webkit-clip-path: polygon(100% 0, 100% 78%, 67% 95%, 36% 81%, 0 100%, 0 0);
     clip-path: polygon(100% 0, 100% 78%, 67% 95%, 36% 81%, 0 100%, 0 0);
@@ -91,7 +91,8 @@
 }
 
 .big-wrapper{
-    height: 700px;
+    height: auto;
+    min-height: 700px;
 }
 
 .learn-bottom{
@@ -136,9 +137,24 @@
     color: #0D47A1;
 }
 
+#to-top{
+    margin: 0 auto;
+    display: block;
+}
+
+#top-btn{
+    font-size: 25px;
+    margin-top: 5px;
+    color: white;
+}
+
+#top-btn:hover{
+    color: lightgrey;
+}
+
 .footer{
     background-color: #424242;
-    height: 50px;
+    min-height: 50px;
     width: 100%;
     color: white;
     text-align: center;
@@ -148,3 +164,34 @@
     align-items: center; /* align vertical */
 }
 
+.footer-text{
+    display: block;
+}
+
+/* signup CSS */
+.wrapper{
+    height: 100%;
+    width: 100%;
+    background:
+      /* top, transparent red, faked with gradient */ 
+          linear-gradient(
+            rgba(0, 0, 0, 0.6), 
+            rgba(0, 0, 0, 0.6)
+          ),
+          /* bottom, image */
+          url("../img/sf.jpg");   
+    background-repeat: no-repeat;
+}
+
+.vcenter{
+    position: relative;
+}
+
+.signup-card{
+    top: 40%;left: 50%;
+    transform: translate(-50%,40%);
+    position: absolute;
+    height: 50%;
+    background-color: white;
+    vertical-align: middle;
+}
