@@ -1,7 +1,30 @@
+.btn-signup{
+    border: none !important;
+    border-radius: 0 !important;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 .btn-login{
     border: none;
     border-radius: 0 !important;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white !important;
+    border-color: white !important;
 }
+
+.btn-signup:hover{
+    background-color: white !important;
+    cursor: pointer;
+}
+
+.btn-login:hover{
+    background-color: transparent !important;
+    border-color: white !important;
+    cursor: pointer;
+}
+
 .btn-gs{
     border: none;
     border-radius: 0 !important;
@@ -60,3 +83,68 @@
     margin-bottom: 20px;
     width: 100%;
 }
+
+
+.info-col{
+    height: 400px;
+    color: #0D47A1;
+}
+
+.big-wrapper{
+    height: 700px;
+}
+
+.learn-bottom{
+    background-color: #0D47A1;
+    height: 200px;
+    width: 100%;
+    -webkit-clip-path: polygon(0 0, 100% 0%, 100% 78%, 0% 100%);
+    clip-path: polygon(0 0, 100% 0%, 100% 78%, 0% 100%);
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}
+
+.bl-bg{
+    background-color: #0D47A1;
+}
+
+.gr-bg{
+    background-color: lightgrey;
+}
+
+.why-bottom{
+    background-color: lightgrey;
+    height: 250px;
+    width: 100%;
+    -webkit-clip-path: polygon(50% 0%, 100% 0, 100% 90%, 50% 59%, 0 60%, 0 0);
+    clip-path: polygon(50% 0%, 100% 0, 100% 20%, 50% 50%, 0 20%, 0 0);
+    -moz-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}
+
+.why-col{
+    height: 400px;
+    color: white;
+}
+
+.biz-col{
+    height: 400px;
+    color: #0D47A1;
+}
+
+.footer{
+    background-color: #424242;
+    height: 50px;
+    width: 100%;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; /* align vertical */
+}
+
