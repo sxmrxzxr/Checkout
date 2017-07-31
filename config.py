@@ -17,7 +17,7 @@ class Config:
     CLIENT_ID = uuid5(NAMESPACE_DNS, gethostname())
     VERSION = "1.0"
     AUTHOR = "Jake Lawrence"
-    NAME = "<Project_Name>"
+    NAME = "Checkout"
     HOSTNAME = gethostname()
 
     @staticmethod
