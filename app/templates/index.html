@@ -1,8 +1,20 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/main.css') }}">
+
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/bootstrap.css') }}">
+
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/font-awesome.min.css') }}">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-toggleable-md navbar-light"
@@ -37,9 +49,17 @@
                     with, and even view a list of hackathons that have hardware hacks!
                     </p>
                     </div>
-                    <div class="col-md-12 sm-box">
+                    <div class="col-md-12 sm-box" align="center">
+                    <h2>Hackathons with Hardware Hacks</h2>
+                    <hr>
                     </div>
-                    <div class="col-md-12 sm-box">
+                    <div class="col-md-12 sm-box" align="center">
+                    <h2>Request an item</h2>
+                    <hr>
+                    <p>
+                    Want to hack with an item that we don't have?<br>Fill out the
+                    form below and we'll see what we can do!
+                    </p>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -49,9 +69,122 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="col-md-12 lg-box">
+                    <div class="col-md-12 xl-box" align="center">
+                    <h2>Inventory</h2>
+                    <hr>
+                    <div align="center">
+                    <table id="inventory" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Length of Reservation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>4 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Amazon Echo</td>
+                                <td>4</td>
+                                <td>2 weeks</td>
+                            </tr>
+                        </tbody>
+                    </table>
                     </div>
-                    <div class="col-md-12 md-box">
                     </div>
                 </div>
             </div>
