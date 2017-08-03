@@ -48,12 +48,18 @@ html, body{
 
 
 /* misc body stuff */
+#request-desc{
+    width: 93%;
+    margin: 10px;
+}
+
 #desc_text{
     font-size: 1.4em;
 }
 
 #inventory{
     width: 100% !important;
+    padding: 0 !important;
 }
 
 table.dataTable thead th {
@@ -73,7 +79,6 @@ table.dataTable thead th.sorting_desc:after {
 
 table.dataTable thead th.sorting:after {
     content: "\f0dc";
-    color: #ddd;
     font-size: 0.8em;
     padding-top: 0.12em;
 }

@@ -40,45 +40,73 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="col-md-12 sm-box" align="center">
-                    <h1>Welcome to TUDev Checkout!</h1>
-                    <hr>
-                    <p align="left" id="desc_text">
-                    TUDev checkout is the main hub for hardware hacking! With
-                    this site you can learn about hardware hacking, checkout
-                    and reserve hardware that you can hack your own projects
-                    with, and even view a list of hackathons that have hardware hacks!
-                    </p>
-                    </div>
-                    <div class="col-md-12 sm-box" align="center">
                     <h2>Hackathons with Hardware Hacks</h2>
-                    <hr>
+                    <hr style="margin-bottom: 0;">
+                    <table class="table table-striped table-bordered" cellspacing="0" width="100%" id="hackathons">
+                        <thead>
+                            <tr>
+                            <th>Hackathon</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                           <td>Pennapps</td>
+                           <td>UPenn</td>
+                           <td>Sept. 8-10</td>
+                           </tr>
+                           <tr>
+                           <td>HopHacks</td>
+                           <td>Johns Hopkins</td>
+                           <td>Sept. 15-17</td>
+                           </tr>
+                           <tr>
+                           <td>hackNY</td>
+                           <td>NYU</td>
+                           <td>Oct. 14-15</td>
+                           </tr>
+                           </tr>
+                        </tbody>
+                    </table>
                     </div>
                     <div class="col-md-12 sm-box" align="center">
                     <h2>Request an item</h2>
                     <hr>
-                    <p>
+                    <p style="margin: 3px">
                     Want to hack with an item that we don't have?<br>Fill out the
                     form below and we'll see what we can do!
                     </p>
+                    <div>
+                    <form>
+                    <input type="text" placeholder="Name*" required>
+                    <input type="text" placeholder="Email Address*" required>
+                    <input type="text" placeholder="Item to request*" required>
+                    <textarea id="request-desc"
+                    placeholder="Tell us why we should have your requested item"></textarea>
+                    <input type="submit" class="btn btn-info" value="Request Item">
+                    </form>
+                    </div>
+                    </div>
+                    <div class="col-md-12 sm-box" align="center">
+                    <h1>Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></h1>
+                    <hr>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="col-md-12 md-box">
-                    </div>
-                    <div class="col-md-12 lg-box">
-                    </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-8">
                     <div class="col-md-12 xl-box" align="center">
                     <h2>Inventory</h2>
                     <hr>
-                    <div align="center">
+                    <div style="width: 100%; margin:0 auto;"">
                     <table id="inventory" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                             <th>Item</th>
                             <th>Quantity</th>
-                            <th>Length of Reservation</th>
+                            <th>Reservation Length</th>
+                            <th>Category</th>
+                            <th>Tutorials</th>
+                            <th>Add to Cart</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,101 +114,221 @@
                                 <td>Amazon Echo</td>
                                 <td>4</td>
                                 <td>2 weeks</td>
+                                <td>Voice Assistant</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Arduino</td>
+                                <td>2</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Edison Board</td>
+                                <td>5</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Oculus</td>
+                                <td>1</td>
+                                <td>2 Weeks</td>
+                                <td>VR</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alienware Desktop</td>
+                                <td>2</td>
+                                <td>2 Weeks</td>
+                                <td>Computer</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Amazon Echo</td>
                                 <td>4</td>
                                 <td>2 weeks</td>
+                                <td>Voice Assistant</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Arduino</td>
+                                <td>2</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Edison Board</td>
+                                <td>5</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Oculus</td>
+                                <td>1</td>
+                                <td>2 Weeks</td>
+                                <td>VR</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alienware Desktop</td>
+                                <td>2</td>
+                                <td>2 Weeks</td>
+                                <td>Computer</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Amazon Echo</td>
                                 <td>4</td>
                                 <td>2 weeks</td>
+                                <td>Voice Assistant</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Arduino</td>
+                                <td>2</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Edison Board</td>
+                                <td>5</td>
+                                <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Oculus</td>
+                                <td>1</td>
+                                <td>2 Weeks</td>
+                                <td>VR</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Alienware Desktop</td>
+                                <td>2</td>
+                                <td>2 Weeks</td>
+                                <td>Computer</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Amazon Echo</td>
                                 <td>4</td>
                                 <td>2 weeks</td>
+                                <td>Voice Assistant</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
+                                <td>Arduino</td>
+                                <td>2</td>
                                 <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
+                                <td>Edison Board</td>
+                                <td>5</td>
                                 <td>2 weeks</td>
+                                <td>DIY</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
+                                <td>Oculus</td>
+                                <td>1</td>
+                                <td>2 Weeks</td>
+                                <td>VR</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>4 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
+                                <td>Alienware Desktop</td>
+                                <td>2</td>
+                                <td>2 Weeks</td>
+                                <td>Computer</td>
+                                <td>Coming Soon</td>
+                                <td>
+                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
+                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
