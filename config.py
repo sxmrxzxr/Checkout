@@ -24,16 +24,6 @@ class Config:
     def init_app(app):
         pass
 
-
-class DevelopmentConfig(Config):
-    CONFIG_DIR = basedir
-    DB_USER = os.getenv('DB_USER')
-    DB_PASS = os.getenv('DB_PASS')
-    SLACK_KEY = os.getenv('SLACK_KEY')
-    CLIENT_ID = os.getenv('CLIENT_ID')
-    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-    ADMIN_EMAILS = []
-
 class ProductionConfig(Config):
     CONFIG_DIR = '/var/log/'
     LOGLEVEL = ''
@@ -42,10 +32,9 @@ class ProductionConfig(Config):
     SLACK_KEY = os.getenv('SLACK_KEY')
     CLIENT_ID = os.getenv('CLIENT_ID')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-    ADMIN_EMAILS = []
+    ADMIN_EMAILS = ['tug64918@temple.edu']
+    WELCOME_MSG = ['Welcome, ', 'Time to Hack, ', 'Hey there, ']
 
 config = {
-    'development': DevelopmentConfig,
-    'production': ProductionConfig,
     'default': ProductionConfig
 }

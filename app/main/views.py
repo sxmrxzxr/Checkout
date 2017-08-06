@@ -1,8 +1,20 @@
 import requests
 import json
-from flask import abort, jsonify, render_template, redirect, request
+from datetime import datetime
+from flask import (abort, jsonify, g, session, render_template, redirect,
+                   request, url_for)
+from functools import wraps
 from manage import app, client
+from random import randint
 from . import main
+
+
+@main.before_request
+def before_request():
+    session.permanent = True
+    g.user = None
+    if 'user' in session:
+        g.user = session['user']
 
 @main.route('/')
 def index():
@@ -45,9 +57,46 @@ def index():
         hackathon_list.append(formatted_hackathon)
     formatted_hackathons = '\n'.join(hackathon_list)
 
+    client_id = None
+    welcome_msg = None
+    user = None
+    if g.user is None or 'user' not in session:
+        client_id = app.config['CLIENT_ID']
+    else:
+        db = client.tudev_checkout
+        found_user = db.users.find_one({'email': session['user']})
+        user = session['user']
+        if found_user:
+            if found_user['email'] == 'shetyeshail@gmail.com':
+                user = 'Cuff Boy'
+            else:
+                user = found_user['name'].split(' ')[0]
+        random_msg_index = randint(0,len(app.config['WELCOME_MSG'])-1)
+        welcome_msg = app.config['WELCOME_MSG'][random_msg_index]
+
     return render_template('index.html', inventory=formatted_inventory,
-                           hackathons=formatted_hackathons,
-                           client_id=app.config['CLIENT_ID'])
+                           hackathons=formatted_hackathons, user=user,
+                           client_id=client_id, welcome_msg=welcome_msg)
+def admin_required(f):
+    '''
+        Allows the passed function to only be executed when the user is
+        logged in
+    :return:
+        decorated function
+    '''
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' in session:
+            if session['user'] in app.config['ADMIN_EMAILS']:
+                return f(*args, **kwargs)
+        return redirect(url_for('.index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@main.route('/admin')
+@admin_required
+def admin():
+    return jsonify({'yay': 'admin'})
 
 @main.route('/authorize')
 def authorize():
@@ -61,15 +110,25 @@ def authorize():
     response = json.loads(oauth_verify.text)
 
     if response['ok']:
-        print('yay')
-        print(response)
+        # set session for user
+        session['user'] = response['user']['email']
+
+        # add user to databse to track how many people have signed in
+        db = client.tudev_checkout
+        db.users.update({'email': response['user']['email']},
+                        {
+                         'email': response['user']['email'],
+                         'name': response['user']['name'],
+                         'recent-signin': datetime.now()
+                        }, upsert=True)
+
+        if response['user']['email'] in app.config['ADMIN_EMAILS']:
+            return redirect(url_for('.admin'))
+        else:
+            redirect(url_for('.index'))
     else:
-        print('nay')
         print(response)
-
-    print(response)
-
-    return jsonify({'status': 'wip'})
+        return jsonify({'status': 'not logged in'})
 
 @main.route('/request_item')
 def request_item():
@@ -82,4 +141,9 @@ def request_item():
 @main.route('/inventory')
 def inventory():
     return jsonify({'status': 'wip'})
-    
+
+@main.route('/logout')
+def logout():
+    g.user = None
+    session.pop('user', None)
+    return redirect(url_for('.index'))    

@@ -31,7 +31,13 @@
                 <a class="nav-link" href="#learnmore" style="color: white">Learn More</a>
               </li>
             </ul>
+            {% if client_id %}
             <a href="https://slack.com/oauth/authorize?scope=identity.basic,identity.email&client_id={{ client_id }}"><img src="https://api.slack.com/img/sign_in_with_slack.png" /></a>
+            {% else %}
+            <span class="nav-link" style="color: white">{{ welcome_msg }} {{ user }} | 
+            <a href="{{ url_for('.logout') }}" style="color: white; text-decoration: none">Log Out</a>
+            </span>
+            {% endif %}
           </div>
         </nav>
         <div class="container">
