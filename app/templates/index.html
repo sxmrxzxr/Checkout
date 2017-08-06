@@ -13,14 +13,12 @@
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
         <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
-
-        <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-toggleable-md navbar-light"
         style="background-color: #9E1B34;">
           <a href="https://tudev.org">
-          <img src="https://raw.githubusercontent.com/tudev/assets/master/tudev_outline_white.png" id="logo">
+          <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDIxLjEuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiCgkgdmlld0JveD0iMCAwIDQ3Mi42IDUzMS4zIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0NzIuNiA1MzEuMzsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsOiNGRkZGRkY7fQo8L3N0eWxlPgo8ZyBpZD0iTGF5ZXJfMiI+CjwvZz4KPGcgaWQ9IkxheWVyXzEiPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTQ0OS4yLDExNS43TDI1OS43LDYuM2MtMTQuNS04LjQtMzIuMy04LjQtNDYuNywwTDIzLjQsMTE1LjdDOC45LDEyNC4xLDAsMTM5LjUsMCwxNTYuMnYyMTguOQoJCWMwLDE2LjcsOC45LDMyLjEsMjMuNCw0MC41TDIxMi45LDUyNWMxNC41LDguNCwzMi4zLDguNCw0Ni43LDBsMTg5LjYtMTA5LjRjMTQuNS04LjQsMjMuNC0yMy44LDIzLjQtNDAuNVYxNTYuMgoJCUM0NzIuNiwxMzkuNSw0NjMuNywxMjQuMSw0NDkuMiwxMTUuN3ogTTE3MC4yLDMwNC41YzEuNywwLjksMy4yLDIuMyw0LjMsNC4xYzEuMSwxLjksMS42LDMuOSwxLjYsNmMwLDMtMC44LDUuNi0yLjUsNy42CgkJYy0xLjcsMi0zLjgsMy4xLTYuMiwzLjFjLTEuMiwwLTIuMy0wLjMtMy41LTAuOGwtODcuMi00Ny44Yy0yLjUtMS40LTQuNC0zLjMtNS44LTUuN2MtMS40LTIuNC0yLjEtNS4xLTIuMS04LjF2LTIuMQoJCWMwLTMsMC43LTUuNywyLjEtOC4xYzEuNC0yLjQsMy4zLTQuMyw1LjgtNS43bDg3LjItNDcuOGMxLjItMC41LDIuMy0wLjgsMy41LTAuOGMyLjUsMCw0LjYsMSw2LjIsMy4xYzEuNywyLDIuNSw0LjYsMi41LDcuNgoJCWMwLDIuMS0wLjUsNC4xLTEuNiw2Yy0xLjEsMS45LTIuNSwzLjItNC4zLDQuMWwtNzguNyw0Mi43TDE3MC4yLDMwNC41eiBNMjczLjgsMTUxLjhsLTU3LjksMjA2LjhjLTAuNiwyLjEtMS42LDMuOS0zLjEsNS4zCgkJYy0xLjUsMS40LTMuMywyLjEtNS41LDIuMWMtMi42LDAtNC44LTEuMS02LjQtMy4yYy0xLjctMi4xLTIuNS00LjctMi41LTcuN2MwLTEuMSwwLjItMi40LDAuNy00TDI1NywxNDQuNAoJCWMwLjYtMi4xLDEuNi0zLjksMy4xLTUuM2MxLjUtMS40LDMuMy0yLjEsNS41LTIuMWMyLjYsMCw0LjgsMS4xLDYuNCwzLjJjMS43LDIuMSwyLjUsNC43LDIuNSw3LjcKCQlDMjc0LjQsMTQ4LjksMjc0LjIsMTUwLjIsMjczLjgsMTUxLjh6IE00MDMuOCwyNjIuOGMwLDMtMC43LDUuNy0yLjEsOC4xYy0xLjQsMi40LTMuMyw0LjMtNS44LDUuN2wtODcuMiw0Ny44CgkJYy0xLDAuNS0yLjIsMC44LTMuNSwwLjhjLTIuNSwwLTQuNi0xLTYuMi0zLjFjLTEuNy0yLTIuNS00LjYtMi41LTcuNmMwLTIuMSwwLjUtNC4xLDEuNi02YzEuMS0xLjksMi41LTMuMiw0LjMtNC4xbDc4LjctNDIuNwoJCWwtNzguNy00Mi43Yy0xLjctMC45LTMuMi0yLjMtNC4zLTQuMWMtMS4xLTEuOS0xLjYtMy45LTEuNi02YzAtMywwLjgtNS42LDIuNS03LjZjMS43LTIsMy43LTMuMSw2LjItMy4xYzEuMywwLDIuNSwwLjMsMy41LDAuOAoJCWw4Ny4yLDQ3LjhjMi41LDEuNCw0LjQsMy4zLDUuOCw1LjdjMS40LDIuNCwyLjEsNS4xLDIuMSw4LjFWMjYyLjh6Ii8+CjwvZz4KPC9zdmc+Cg==" id="logo">
           </a>
           <a class="navbar-brand" href="#" style="color: white">
           TUDev Checkout</a>
@@ -33,7 +31,7 @@
                 <a class="nav-link" href="#learnmore" style="color: white">Learn More</a>
               </li>
             </ul>
-            <a href="https://slack.com/oauth/authorize?scope=identity.basic&client_id=your_client_id"><img src="https://api.slack.com/img/sign_in_with_slack.png" /></a>
+            <a href="https://slack.com/oauth/authorize?scope=identity.basic,identity.email&client_id={{ client_id }}"><img src="https://api.slack.com/img/sign_in_with_slack.png" /></a>
           </div>
         </nav>
         <div class="container">
@@ -50,30 +48,25 @@
                             <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody>
-                           <tr>
-                           <td>Pennapps</td>
-                           <td>UPenn</td>
-                           <td>Sept. 8-10</td>
-                           </tr>
-                           <tr>
-                           <td>HopHacks</td>
-                           <td>Johns Hopkins</td>
-                           <td>Sept. 15-17</td>
-                           </tr>
-                           <tr>
-                           <td>hackNY</td>
-                           <td>NYU</td>
-                           <td>Oct. 14-15</td>
-                           </tr>
-                           </tr>
-                        </tbody>
+                    {% if hackathons %}
+                        <table class="table table-striped table-bordered" cellspacing="0" width="100%" id="hackathons">
+                            <thead>
+                                <tr>
+                                <th>Hackathon</th>
+                                <th>Location</th>
+                                <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {{ hackathons }}
+                            </tbody>
+                    {% endif %}
                     </table>
                     </div>
                     <div class="col-md-12 sm-box" align="center">
                     <h2>Request an item</h2>
                     <hr>
-                    <p style="margin: 3px">
+                    <p style="margin-bottom: 3px">
                     Want to hack with an item that we don't have?<br>Fill out the
                     form below and we'll see what we can do!
                     </p>
@@ -109,228 +102,11 @@
                             <th>Add to Cart</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                                <td>Voice Assistant</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Arduino</td>
-                                <td>2</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Edison Board</td>
-                                <td>5</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Oculus</td>
-                                <td>1</td>
-                                <td>2 Weeks</td>
-                                <td>VR</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alienware Desktop</td>
-                                <td>2</td>
-                                <td>2 Weeks</td>
-                                <td>Computer</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                                <td>Voice Assistant</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Arduino</td>
-                                <td>2</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Edison Board</td>
-                                <td>5</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Oculus</td>
-                                <td>1</td>
-                                <td>2 Weeks</td>
-                                <td>VR</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alienware Desktop</td>
-                                <td>2</td>
-                                <td>2 Weeks</td>
-                                <td>Computer</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                                <td>Voice Assistant</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Arduino</td>
-                                <td>2</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Edison Board</td>
-                                <td>5</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Oculus</td>
-                                <td>1</td>
-                                <td>2 Weeks</td>
-                                <td>VR</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alienware Desktop</td>
-                                <td>2</td>
-                                <td>2 Weeks</td>
-                                <td>Computer</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Amazon Echo</td>
-                                <td>4</td>
-                                <td>2 weeks</td>
-                                <td>Voice Assistant</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Arduino</td>
-                                <td>2</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Edison Board</td>
-                                <td>5</td>
-                                <td>2 weeks</td>
-                                <td>DIY</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Oculus</td>
-                                <td>1</td>
-                                <td>2 Weeks</td>
-                                <td>VR</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Alienware Desktop</td>
-                                <td>2</td>
-                                <td>2 Weeks</td>
-                                <td>Computer</td>
-                                <td>Coming Soon</td>
-                                <td>
-                                <input type="number" name="quantity" min="1" max="5" placeholder="1">
-                                <a href="#"> Add to Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-                        </tbody>
+                        {% if hackathons %}
+                            <tbody>
+                                {hackathons}
+                            </tbody>
+                        {% endif %}
                     </table>
                     </div>
                     </div>
@@ -359,4 +135,7 @@
              by <a href="jlawrence.co" class="underline">Jake</a>
         </span></div>
     </body>
+    <footer>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </footer>
 </html>

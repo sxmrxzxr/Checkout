@@ -7,12 +7,22 @@
 import os
 from app import create_app
 from flask_script import Manager, Shell, Command, Option
-
+from pymongo import MongoClient
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-app.debug = True
+#app.debug = True
 
 manager = Manager(app)
+mongo_url = ('mongodb://%s:%s@ds028310.mlab.com'
+             ':28310/tudev_checkout' % (app.config['DB_USER'],
+                                      app.config['DB_PASS']))
+client = MongoClient(mongo_url, connect=False)
+
+db = client.tudev_checkout
+
+for email in app.config['ADMIN_EMAILS']:
+    print(email)
+    db.admin_emails.update({'email': email}, {'email': email}, upsert=True)
 
 def make_shell_context():
     return dict(app=app)
