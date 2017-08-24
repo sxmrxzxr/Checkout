@@ -10,8 +10,8 @@ from flask_script import Manager, Shell, Command, Option
 from pymongo import MongoClient
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+app.debug = True
 app.secret_key = os.urandom(32)
-#app.debug = True
 
 manager = Manager(app)
 mongo_url = ('mongodb://%s:%s@ds028310.mlab.com'

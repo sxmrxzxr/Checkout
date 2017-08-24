@@ -1,5 +1,7 @@
-import requests
+import hashlib
 import json
+import os
+import requests
 from datetime import datetime
 from flask import (abort, jsonify, g, session, render_template, redirect,
                    request, url_for)
@@ -29,14 +31,15 @@ def index():
         <td>{quantity}</td>
         <td>{reservation_length}</td>
         <td>{item_category}</td>
-        <td>{tutorials_link}</td>
+        <td><a href="{tutorials_link}">Link</a></td>
         <td>
             <input type="number" name="cart_quanity" min="1" max="{quantity}"
             placeholder="1">
             <a href="#add_to_cart"> Add to Cart <i class="fa fa-shopping-cart"
             aria-hidden="true"></i></a>
         </td>
-        </tr>'''.format(name=item['name'], quantity=item['quantity'],
+        </tr>'''.format(item_id=item['item_id'], name=item['name'],
+                        quantity=item['quantity'],
                         reservation_length=item['reservation_length'],
                         item_category=item['category'],
                         tutorials_link=item['tutorials_link'])
@@ -46,14 +49,17 @@ def index():
     hackathons = db.hackathons.find()
     hackathon_list = []
     for hackathon in hackathons:
+        maps_link = 'https://www.google.com/maps/search/' + \
+                    hackathon['location']
         formatted_hackathon = '''
         <tr>
-        <td>{name}</td>
-        <td>{location}</td>
+        <td><a href="{link}" target="_blank">{name}</a></td>
+        <td><a href="{location_link}" target="_blank">{location}</a></td>
         <td>{date}</td>
         </tr>
         '''.format(name=hackathon['name'], location=hackathon['location'],
-                   date=hackathon['date'])
+                   location_link=maps_link, date=hackathon['date_range'],
+                   link=hackathon['link'])
         hackathon_list.append(formatted_hackathon)
     formatted_hackathons = '\n'.join(hackathon_list)
 
@@ -96,7 +102,58 @@ def admin_required(f):
 @main.route('/admin')
 @admin_required
 def admin():
-    return jsonify({'yay': 'admin'})
+    db = client.tudev_checkout
+    
+    inventory = db.inventory.find()
+    inventory_list = []
+    for item in inventory:
+        formatted_item = '''
+        <tr>
+        <td>{item_id}</td>
+        <td>{name}</td>
+        <td>{quantity}</td>
+        <td>{reservation_length}</td>
+        <td>{item_category}</td>
+        <td><a href="{tutorials_link}">Link</a></td>
+        </tr>'''.format(item_id=item['item_id'], name=item['name'],
+                        quantity=item['quantity'],
+                        reservation_length=item['reservation_length'],
+                        item_category=item['category'],
+                        tutorials_link=item['tutorials_link'])
+        inventory_list.append(formatted_item)
+    formatted_inventory = '\n'.join(inventory_list)
+
+    hackathons = db.hackathons.find()
+    hackathon_list = []
+    for hackathon in hackathons:
+        maps_link = 'https://www.google.com/maps/search/' + \
+                    hackathon['location']
+        formatted_hackathon = '''
+        <tr>
+        <td><a href="{link}" target="_blank">{name}</a></td>
+        <td><a href="{location_link}" target="_blank">{location}</a></td>
+        <td>{date}</td>
+        </tr>
+        '''.format(name=hackathon['name'], location=hackathon['location'],
+                   date=hackathon['date_range'], link=hackathon['link'],
+                   location_link=maps_link)
+        hackathon_list.append(formatted_hackathon)
+    formatted_hackathons = '\n'.join(hackathon_list)
+
+    db = client.tudev_checkout
+    found_user = db.users.find_one({'email': session['user']})
+    user = session['user']
+    if found_user:
+        if found_user['email'] == 'shetyeshail@gmail.com':
+            user = 'Cuff Boy'
+        else:
+            user = found_user['name'].split(' ')[0]
+    random_msg_index = randint(0,len(app.config['WELCOME_MSG'])-1)
+    welcome_msg = app.config['WELCOME_MSG'][random_msg_index]
+
+    return render_template('admin.html', inventory=formatted_inventory,
+                           hackathons=formatted_hackathons, user=user,
+                           welcome_msg=welcome_msg)
 
 @main.route('/authorize')
 def authorize():
@@ -113,7 +170,7 @@ def authorize():
         # set session for user
         session['user'] = response['user']['email']
 
-        # add user to databse to track how many people have signed in
+        # add user to database to track how many people have signed in
         db = client.tudev_checkout
         db.users.update({'email': response['user']['email']},
                         {
@@ -141,6 +198,158 @@ def request_item():
 @main.route('/inventory')
 def inventory():
     return jsonify({'status': 'wip'})
+
+@main.route('/add_hackathon', methods=['POST'])
+@admin_required
+def add_hackathon():
+    data = request.form
+
+    try:
+        name = data['name']
+        location = data['location']
+        date_range = data['date']
+        link = data['link']
+
+        db = client.tudev_checkout
+        db.hackathons.update({'name': name},
+                              {
+                              'name': name,
+                              'location': location,
+                              'date_range': date_range,
+                              'link': link
+                              }, upsert=True)
+        return jsonify({'Status': 'Hackathon added/updated.'})
+    except KeyError:
+        abort(400)
+
+@main.route('/remove_hackathon', methods=['POST'])
+@admin_required
+def remove_hackathon():
+    print("here")
+    data = request.form
+    print(data)
+    try:
+        hackathon_name = data['name']
+        db = client.tudev_checkout
+        db.hackathons.remove({'name': hackathon_name})
+
+        return jsonify({'status': 'hackathon removed'})
+    except KeyError:
+        abort(400)
+
+@main.route('/add_item', methods=['POST'])
+@admin_required
+def add_tem():
+    data = request.form
+
+    try:
+        name = data['name']
+        quantity = int(data['quantity'])
+        res_length = data['res_length']
+        category = data['category']
+        tutorial_link = data['item_link']
+        item_id = data['item_id']
+
+        if item_id:
+            db = client.tudev_checkout
+
+            db.inventory.update({'item_id': item_id},
+                            {
+                                'name': name,
+                                'quantity': quantity,
+                                'reservation_length': res_length,
+                                'category': category,
+                                'tutorials_link': tutorial_link,
+                                'item_id': item_id
+                            }, upsert=True)
+            return jsonify({'updated': item_id})
+        else:
+            item_id = hashlib.sha1(bytes(os.urandom(32)))
+            item_id = item_id.hexdigest()[:4]
+            
+            db = client.tudev_checkout
+
+            db.inventory.insert({
+                                'name': name,
+                                'quantity': quantity,
+                                'reservation_length': res_length,
+                                'category': category,
+                                'tutorials_link': tutorial_link,
+                                'item_id': item_id
+                            })
+            return jsonify({'inserted': item_id})
+    except KeyError:
+        abort(400)
+
+    return jsonify({'status': 'done'})
+
+@main.route('/increase_quantity', methods=['POST'])
+@admin_required
+def increase_quantity():
+    data = request.form
+
+    try:
+        item_id = data['item_id']
+        add_ons = int(data['quantity'])
+
+        db = client.tudev_checkout
+
+        c_item = db.inventory.find_one({'item_id': item_id})
+
+        if c_item:
+            db.inventory.update({'item_id': item_id},
+                                {
+                                    'name': c_item['name'],
+                                    'quantity': c_item['quantity'] + add_ons,
+                                    'reservation_length': c_item['reservation_length'],
+                                    'category': c_item['category'],
+                                    'tutorials_link': c_item['tutorials_link'],
+                                    'item_id': item_id
+                                })
+            return jsonify({'updated': item_id})
+        else:
+            abort(404)
+    except KeyError:
+        abort(400)
+
+@main.route('/remove_item', methods=['POST'])
+@admin_required
+def remove_item():
+    data = request.form
+
+    try:
+        item_id = data['item_id']
+        if data['quantity']:
+            removals = int(data['quantity'])
+        else:
+            removals = 0
+
+        if removals:
+            db = client.tudev_checkout
+            c_item = db.inventory.find_one({'item_id': item_id})
+
+            if c_item:
+                if c_item['quantity'] > removals:
+                    db.inventory.update({'item_id': item_id},
+                                        {
+                                        'name': c_item['name'],
+                                        'quantity': c_item['quantity'] - \
+                                                    removals,
+                                        'reservation_length': c_item['reservation_length'],
+                                        'category': c_item['category'],
+                                        'tutorials_link': c_item['tutorials_link'],
+                                        'item_id': item_id
+                                        })
+                    return jsonify({'updated': item_id})
+                else:
+                    db.inventory.remove({'item_id': item_id})
+                    return jsonify({'removed': item_id})
+        else:
+            db = client.tudev_checkout
+            db.inventory.remove({'item_id': item_id})
+            return jsonify({'removed': item_id})
+    except KeyError:
+        abort(400)
 
 @main.route('/logout')
 def logout():

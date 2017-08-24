@@ -32,7 +32,9 @@ class ProductionConfig(Config):
     SLACK_KEY = os.getenv('SLACK_KEY')
     CLIENT_ID = os.getenv('CLIENT_ID')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-    ADMIN_EMAILS = ['tug64918@temple.edu']
+    ADMIN_EMAILS = ['tug64918@temple.edu', 'tue95606@temple.edu',
+                    'tug04320@temple.edu', 'ispicer@temple.edu',
+                    'tuf84707@temple.edu', 'tug03556@temple.edu']
     WELCOME_MSG = ['Welcome, ', 'Time to Hack, ', 'Hey there, ']
 
 config = {
