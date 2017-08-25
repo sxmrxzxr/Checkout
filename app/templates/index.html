@@ -35,7 +35,11 @@
             <a href="https://slack.com/oauth/authorize?scope=identity.basic,identity.email&client_id={{ client_id }}"><img src="https://api.slack.com/img/sign_in_with_slack.png" /></a>
             {% else %}
             <span class="nav-link" style="color: white">{{ welcome_msg }} {{ user }} | 
-            <a href="{{ url_for('.logout') }}" style="color: white; text-decoration: none">Log Out</a>
+            {% if admin %}
+            <a href="{{ url_for('.admin') }}" style="color: white; text-decoration: none">Admin</a>
+            | 
+            {% endif %}
+            <a href="{{ url_for('.logout') }}" style="color: white; text-decoration: none"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
             </span>
             {% endif %}
           </div>
@@ -69,13 +73,21 @@
                     form below and we'll see what we can do!
                     </p>
                     <div>
-                    <form>
-                    <input type="text" placeholder="Name*" required>
-                    <input type="text" placeholder="Email Address*" required>
-                    <input type="text" placeholder="Item to request*" required>
-                    <textarea id="request-desc"
-                    placeholder="Tell us why we should have your requested item"></textarea>
-                    <input type="submit" class="btn btn-info" value="Request Item">
+                    <form id="request_item">
+                    <input id="request_name" type="text" placeholder="Name*"
+                      required>
+                    <input id="request_email" type="text"
+                      placeholder="Email Address*" required>
+                    <input id="request_item_name" type="text"
+                      placeholder="Item to request*" required>
+                    <textarea id="request_desc"
+                      placeholder="Tell us why we should have your requested item"></textarea>
+                    <input id="request_submit" type="submit"
+                      class="btn btn-info" value="Request Item">
+                    <span id="request_loading"
+                    style="display: none;">
+                    <p><i class="fa fa-cog fa-spin fa-fw"></i></p>
+                    </span>
                     </form>
                     </div>
                     </div>

@@ -43,6 +43,22 @@ $(document).ready(function() {
         bFilter: false,
         bInfo: false
     });
+    $(document).on('submit','#request_item', function(event) {
+        $("#request_loading").css("display", "inline-block");
+        $.ajax({
+            data : {
+                'name': $('#request_name').val(),
+                'email': $('#request_email').val(),
+                'item': $('#request_item_name').val(),
+                'content': $('#request_desc').val()
+            },
+            type : 'POST',
+            url : '/request_item'
+        }).done(function(data) {
+            location.reload();
+        });
+        event.preventDefault();
+    });
     $(document).on('submit','#add_hackathon', function(event) {
         $.ajax({
             data : {

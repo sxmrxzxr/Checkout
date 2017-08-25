@@ -1,7 +1,9 @@
+import email
 import hashlib
 import json
 import os
 import requests
+import smtplib
 from datetime import datetime
 from flask import (abort, jsonify, g, session, render_template, redirect,
                    request, url_for)
@@ -79,10 +81,13 @@ def index():
                 user = found_user['name'].split(' ')[0]
         random_msg_index = randint(0,len(app.config['WELCOME_MSG'])-1)
         welcome_msg = app.config['WELCOME_MSG'][random_msg_index]
-
+    admin = False
+    if 'user' in session:
+        admin = session['user'] in app.config['ADMIN_EMAILS']
     return render_template('index.html', inventory=formatted_inventory,
                            hackathons=formatted_hackathons, user=user,
-                           client_id=client_id, welcome_msg=welcome_msg)
+                           client_id=client_id, welcome_msg=welcome_msg,
+                           admin=admin)
 def admin_required(f):
     '''
         Allows the passed function to only be executed when the user is
@@ -184,16 +189,75 @@ def authorize():
         else:
             redirect(url_for('.index'))
     else:
-        print(response)
         return jsonify({'status': 'not logged in'})
 
-@main.route('/request_item')
+@main.route('/request_item', methods=['POST'])
 def request_item():
     data = request.form
-    name = data['name']
-    email = data['email']
-    item = data['item']
-    content = data['content']
+    try:
+        name = data['name']
+        email_account = data['email']
+        item = data['item']
+        content = data['content']
+        confirm_msg = email.message.Message()
+        confirm_msg['Subject'] = 'Request Item - Request Recieved'
+        confirm_msg['From'] = app.config['REQUEST_EMAIL_SEND']
+        confirm_msg['To'] = email_account
+        confirm_msg.add_header('Content-Type', 'text/html')
+
+        email_content = '''
+        <html>
+        <body>
+            <p>
+            Hey {name}!
+            <br>
+            We recieved your request, we'll look into "{item}".
+            <br>
+            Happy Hacking,
+            <br>
+            The TUDev Team
+            </p>
+        </body>
+        </html>'''.format(name=name.split(' ')[0], item=item)
+
+        confirm_msg.set_payload(email_content)
+
+        email_server = smtplib.SMTP(app.config['SMTP'])
+
+        email_server.starttls() 
+        email_server.login(app.config['EMAIL_USER'], app.config['EMAIL_PASS'])
+        # send email
+        email_server.sendmail(app.config['REQUEST_EMAIL_SEND'], email_account,
+                              confirm_msg.as_string())
+
+        request_msg = email.message.Message()
+        request_msg['Subject'] = 'TUDev Hardware - Item Request'
+        request_msg['From'] = app.config['REQUEST_EMAIL_SEND']
+        request_msg['To'] = email_account
+        request_msg.add_header('Content-Type', 'text/html')
+
+        email_content = '''
+        <html>
+        <body>
+            <h1>Item Request</h1>
+            <p><strong>From: </strong>{name}</p>
+            <p><strong>Email: </strong>{email_account}</p>
+            <p><strong>Item Requested: </strong>{item}</p>
+            <p><strong>Reason for request</strong><br>{content}</p>
+        </body>
+        </html>'''.format(name=name, email_account=email_account, item=item,
+                          content=content)
+
+        request_msg.set_payload(email_content)
+        for account in app.config['REQUEST_EMAIL_ADMINS']:
+            email_server.sendmail(app.config['REQUEST_EMAIL_SEND'],
+                                  account, request_msg.as_string())
+
+        return jsonify({'status': 'request sent'})
+
+    except KeyError as e:
+        abort(400)
+
 
 @main.route('/inventory')
 def inventory():
@@ -225,9 +289,7 @@ def add_hackathon():
 @main.route('/remove_hackathon', methods=['POST'])
 @admin_required
 def remove_hackathon():
-    print("here")
     data = request.form
-    print(data)
     try:
         hackathon_name = data['name']
         db = client.tudev_checkout
