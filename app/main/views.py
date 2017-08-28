@@ -37,8 +37,9 @@ def index():
         <td>
             <input type="number" name="cart_quanity" min="1" max="{quantity}"
             placeholder="1">
-            <a href="#add_to_cart"> Add to Cart <i class="fa fa-shopping-cart"
-            aria-hidden="true"></i></a>
+            <a href="#add_to_cart" style="display: inline-block;">
+            Add to Cart<i class="fa fa-shopping-cart" aria-hidden="true">
+            </i></a>
         </td>
         </tr>'''.format(item_id=item['item_id'], name=item['name'],
                         quantity=item['quantity'],
