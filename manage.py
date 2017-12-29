@@ -14,9 +14,10 @@ app.debug = True
 app.secret_key = os.urandom(32)
 
 manager = Manager(app)
-mongo_url = ('mongodb://%s:%s@ds028310.mlab.com'
-             ':28310/tudev_checkout' % (app.config['DB_USER'],
-                                      app.config['DB_PASS']))
+mongo_url = ('mongodb://checkout:test@ds028310.mlab.com:28310/tudev_checkout',)
+
+print(mongo_url)
+
 client = MongoClient(mongo_url, connect=False)
 
 def make_shell_context():

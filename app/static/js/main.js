@@ -129,4 +129,11 @@ $(document).ready(function() {
         });
         event.preventDefault();
     });
+
+    $(document).on('click','#add_to_cart_b', function(event) {
+        console.log("woo");
+        console.log($(this));
+        event.preventDefault();
+    });
+
 } );

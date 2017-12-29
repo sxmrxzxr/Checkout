@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# env vars and creds ignore
+env_vars.sh
