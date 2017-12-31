@@ -1,16 +1,12 @@
 $(document).ready(function() {
+    console.log("HERE")
     $('#inventory').DataTable({
         "paging": false,
         "autoWidth": false,
         "scrollY": "75%",
         "scrollCollapse": true,
-        "columns": [
-            { "width": "20%"},
-            { "width": "5%"},
-            { "width": "15%"},
-            { "width": "20%"},
-            { "width": "20%"},
-            { "width": "20%"}
+        "columnDefs": [
+            { "width": "20%", "targets": 0 }
           ],
         "order": [[ 1, "desc" ], [ 0, "asc" ]]
     });
@@ -57,6 +53,7 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#request_item')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#add_hackathon', function(event) {
@@ -72,6 +69,7 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#add_hackathon')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#remove_hackathon', function(event) {
@@ -84,6 +82,7 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#remove_hackathon')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#add_item', function(event) {
@@ -101,6 +100,7 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#add_item')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#increase_quantity', function(event) {
@@ -114,6 +114,7 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#increase_quantity')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#remove_item', function(event) {
@@ -127,12 +128,39 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
+        $('#remove_item')[0].reset();
         event.preventDefault();
     });
 
-    $(document).on('click','#add_to_cart_b', function(event) {
-        console.log("woo");
-        console.log($(this));
+    $(document).on('submit','#add-to-cart', function(event) {
+        var cart_contents = []
+        var i = 0;
+        var cart_length = $("#cart")[0].childNodes.length;
+
+        for(i = 1; i < cart_length; i+=3){
+            cart_contents.push($("#cart")[0].childNodes[i]);
+        }
+
+        console.log(cart_contents)
+
+        var product_name = $(this)[0][1].value;
+        var requested_quantity = $(this)[0][0].value;
+        var max_quantity = 4;
+        
+        if(requested_quantity == ''){
+            requested_quantity = 1;
+        }
+
+        var cart_item = '<li id="' + product_name + 
+                        '"><strong id="prod_name">' + product_name + 
+                        '</strong><button class=" btn-info cart-btn">X' + 
+                        '</button><input type="number" name="item_quanity"' + 
+                        'min="1" max="' + max_quantity + '" value="' +
+                        requested_quantity + '" id="product_quantity"' +
+                        ' required></li><br><br>'
+
+        $('#cart').append(cart_item)
+
         event.preventDefault();
     });
 

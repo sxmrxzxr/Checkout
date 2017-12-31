@@ -28,7 +28,6 @@ def index():
     inventory_list = []
     for item in inventory:
         formatted_item = '''
-        <form id="add_to_cart">
         <tr>
         <td>{name}</td>
         <td>{quantity}</td>
@@ -36,17 +35,22 @@ def index():
         <td>{item_category}</td>
         <td><a href="{tutorials_link}">Link</a></td>
         <td>
-            <input type="number" name="cart_quanity" min="1" max="{quantity}"
-            placeholder="1">
-            <button id="add_to_cart_b"
-                    type="button" style="background: none; border: none;">
-            <a href="/" style="display: inline-block;">
-            Add to Cart<i class="fa fa-shopping-cart" aria-hidden="true">
-            </i></a>
-            </button>
+            <form id="add-to-cart">
+                <input type="number" name="cart_quanity" min="1"
+                       max="{quantity}" placeholder="1"
+                       id="cart_quantity" required>
+                <input id="name" value="{name}" style="display: none" disabled>
+                <button id="add_to_cart_b" type="submit"
+                        style="background: none; border: none;">
+                    <a>
+                      Add to Cart
+                      <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </a>
+                </button>
+            </form>
         </td>
         </tr>
-        </form>'''.format(item_id=item['item_id'], name=item['name'],
+        '''.format(item_id=item['item_id'], name=item['name'],
                         quantity=item['quantity'],
                         reservation_length=item['reservation_length'],
                         item_category=item['category'],

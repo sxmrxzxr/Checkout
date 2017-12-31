@@ -28,6 +28,10 @@ html, body{
     height: 895px;
 }
 
+.auto{
+    height: auto;
+}
+
 .xs-box, .sm-box, .md-box, .lg-box, .xl-box{
     background-color: white;
     margin-top: 20px;
@@ -70,6 +74,8 @@ html, body{
     padding: 0 !important;
 }
 
+
+/* data table stuff */
 table.dataTable thead th {
     position: relative;
     background-image: none !important;
@@ -90,15 +96,73 @@ table.dataTable thead th.sorting:after {
     font-size: 0.8em;
     padding-top: 0.12em;
 }
+
 table.dataTable thead th.sorting_asc:after {
     content: "\f0de";
 }
+
 table.dataTable thead th.sorting_desc:after {
     content: "\f0dd";
 }
 
-/* footer stuff */
+#cart_quantity{
+    width: 55px !important;
+}
 
+.btn:hover{
+    cursor: pointer;
+}
+
+#add_to_cart_b{
+    color: #0275d8;
+}
+
+#add_to_cart_b:hover{
+    color: #014c8c;
+    cursor: pointer;
+}
+
+/* cart stuff */
+ul{
+    padding: 0px;
+}
+li{
+    list-style: none;
+    margin-left: none;
+    display: block;
+}
+
+#prod_name{
+    float: left;
+}
+
+#product_quantity{
+    float: right;
+    width: 55px !important;
+    height: auto;
+}
+
+.cart-btn{
+    float: right;
+    background-color: white !important;
+    border: none;
+    color: lightgrey !important;
+    vertical-align: middle;
+    line-height: 32px;
+}
+
+.cart-btn:hover{
+    cursor: pointer;
+    color: grey !important;
+}
+
+/* navbar stuff */
+.slack-button{
+    height: 40px;
+    width: auto;
+}
+
+/* footer stuff */
 .footer{
     background-color: #424242;
     min-height: 50px;
@@ -162,8 +226,4 @@ table.dataTable thead th.sorting_desc:after {
     text-align: center;
     width: 43%;
     margin: 5px;
-}
-
-.btn:hover{
-    cursor: pointer;
 }
