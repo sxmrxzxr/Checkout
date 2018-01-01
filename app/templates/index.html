@@ -106,7 +106,12 @@
               <div class="col-md-12 sm-box" align="center">
                 <h1>Cart <i class="fa fa-shopping-cart" aria-hidden="true"></i></h1>
                 <hr>
-                <ul id="cart" align="left">No items in cart</ul>
+                <form id="cart-form">
+                  <ul id="cart" align="center">No items in cart</ul>
+                  <button class="btn btn-info" type="submit">
+                    Submit Hardware Request
+                  </button>
+                </form>
               </div>
             </div>
             <div class="col-md-8">
@@ -162,6 +167,22 @@
             and help from <a href="https://tudev.org/#who"
                              class="underline">these cool people</a>
           </span>
+        </div>
+        <div id="overlay">
+          <div class="container" align="center">
+            <div class="col-md-6" id="confirm-box">
+              <button id="confirm-exit"
+                      style="background: none;border: none;">X</button>
+              <br>
+              <br>
+              <h2>Hardware Request Receipt</h2>
+              <hr>
+              <ul id="confirm-request">
+              </ul>
+              <h5 id="confirm-message">
+              </h5>
+            </div>
+          </div>
         </div>
     </body>
 </html>

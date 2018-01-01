@@ -30,7 +30,7 @@ def index():
         formatted_item = '''
         <tr>
         <td>{name}</td>
-        <td>{quantity}</td>
+        <td id="{name}-quant">{quantity}</td>
         <td>{reservation_length}</td>
         <td>{item_category}</td>
         <td><a href="{tutorials_link}">Link</a></td>

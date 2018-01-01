@@ -133,35 +133,111 @@ $(document).ready(function() {
     });
 
     $(document).on('submit','#add-to-cart', function(event) {
+        // tracking lists for cart combination
         var cart_contents = []
-        var i = 0;
-        var cart_length = $("#cart")[0].childNodes.length;
+        var cart_contents_ids = []
 
-        for(i = 1; i < cart_length; i+=3){
-            cart_contents.push($("#cart")[0].childNodes[i]);
+        // if the cart is empty
+        if($("#cart")[0].childNodes[0].textContent === 'No items in cart'){
+            // remove the placeholder text
+            $("#cart")[0].removeChild($("#cart")[0].childNodes[0])
         }
+        // number of items in the cart
+        var cart_length = $("#cart")[0].childNodes.length;
+        console.log($("#cart")[0].childNodes)
+
+        // get the each item and its ID
+        for(i = 0; i < cart_length; i+=3){
+            cart_contents.push($("#cart")[0].childNodes[i]);
+            cart_contents_ids.push($("#cart")[0].childNodes[i].id);
+        }
+
+        // item name
+        var product_name = $(this)[0][1].value;
+        // number of the item added to the cart
+        var requested_quantity = $(this)[0][0].value;
+        // amount in inventory
+        var max_quantity = $(this)[0][0].max;
+
+        var matched_index = cart_contents_ids.indexOf(product_name);
+        if(matched_index != -1){
+            var cur_quant = parseInt(cart_contents[matched_index].childNodes[2].value);
+            var r_quant = parseInt(requested_quantity)
+            console.log((cur_quant + r_quant))
+            console.log(max_quantity)
+            if((cur_quant + r_quant) <= parseInt(max_quantity)){
+                cart_contents[matched_index].childNodes[2].value = cur_quant +
+                                                                   r_quant;
+            }else{
+                var w_alert = "You have attempted to add " + 
+                              (cur_quant + r_quant) + " " + product_name + 
+                              "(s) to your cart, but only " + max_quantity +
+                              " of them are in stock, we are sorry for this" + 
+                              " inconvenience."
+                window.alert(w_alert);
+            }
+            $('#cart').empty()
+            for(i = 0; i < cart_contents.length; i++){
+                $('#cart').append(cart_contents[i])
+                $('#cart').append('<br><br>')
+            }
+        }else{
+            if(requested_quantity == ''){
+                requested_quantity = 1;
+            }
+
+            var cart_item = '<li id="' + product_name + 
+                            '"><strong id="prod_name">' + product_name + 
+                            '</strong><button class=" btn-info cart-btn">X' + 
+                            '</button><input type="number" name="item_quanity"' + 
+                            'min="1" max="' + max_quantity + '" value="' +
+                            requested_quantity + '" id="product_quantity"' +
+                            ' required></li><br><br>'
+
+            $('#cart').append(cart_item)
+        }
+        $(this)[0].reset()
 
         console.log(cart_contents)
 
-        var product_name = $(this)[0][1].value;
-        var requested_quantity = $(this)[0][0].value;
-        var max_quantity = 4;
-        
-        if(requested_quantity == ''){
-            requested_quantity = 1;
-        }
-
-        var cart_item = '<li id="' + product_name + 
-                        '"><strong id="prod_name">' + product_name + 
-                        '</strong><button class=" btn-info cart-btn">X' + 
-                        '</button><input type="number" name="item_quanity"' + 
-                        'min="1" max="' + max_quantity + '" value="' +
-                        requested_quantity + '" id="product_quantity"' +
-                        ' required></li><br><br>'
-
-        $('#cart').append(cart_item)
-
         event.preventDefault();
+    });
+
+    $(document).on('submit','#cart-form', function(event) {
+        if($(this)[0].childNodes[1].childNodes[0].data === 'No items in cart'){
+            alert("To submit a hardware request you must add items to your cart");
+        }else{
+            var items = [];
+            var cart_length = $(this)[0].childNodes[1].childNodes.length;
+            $('#confirm-request').empty()
+            for(i = 0; i < cart_length; i += 3){
+                var item = $(this)[0].childNodes[1].childNodes[i];
+
+                var item_name = item.id;
+                var item_quantity = item.childNodes[2].value;
+
+                var formatted_item = '<li align="left">' + 
+                                     '<span id="confirm-quantity">' +
+                                     item_quantity + 'x </span>' +
+                                     '<span id="con-item">' + item_name + 
+                                     '</span></li><br><br><br>'
+                $('#confirm-request').append(formatted_item)
+
+                items.push({'name': item_name, 'quantity': item_quantity})
+            }
+            var r_id = "fbe3"
+            var confirmation_message = 'Your request ID is "<u>' + r_id + 
+                                       '</u>". You will be notified when it' +
+                                       ' is ready for pickup.'
+            $('#confirm-message').append(confirmation_message)
+            console.log(items);
+            document.getElementById("overlay").style.display = "block";
+        }
+        event.preventDefault();
+    });
+
+    $(document).on('click', '#confirm-exit', function(event){
+        document.getElementById("overlay").style.display = "none";
     });
 
 } );
