@@ -26,15 +26,18 @@ class Config:
 
 class ProductionConfig(Config):
     CONFIG_DIR = '/var/log/'
-    LOGLEVEL = ''
+    DEBUG = True
+    LOGLEVEL = DEBUG
     DB_USER = os.getenv('DB_USER')
     DB_PASS = os.getenv('DB_PASS')
     SLACK_KEY = os.getenv('SLACK_KEY')
     CLIENT_ID = os.getenv('CLIENT_ID')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
     ADMIN_EMAILS = ['tug64918@temple.edu', 'tue95606@temple.edu',
-                    'tug04320@temple.edu', 'ispicer@temple.edu',
-                    'tuf84707@temple.edu', 'tug03556@temple.edu']
+                    'ispicer@temple.edu', 'shetyeshail@gmail.com'
+                    'tuf84707@temple.edu', 'tug05029@temple.edu'
+                    'tug99025@temple.edu', 'dmcginnis@temple.edu',
+                    'rgregor@temple.edu']
     WELCOME_MSG = ['Welcome, ', 'Time to Hack, ', 'Hey there, ']
     REQUEST_EMAIL_SEND = 'tudev.hardware@temple.edu'
     REQUEST_EMAIL_ADMINS = ['tug64918@temple.edu']

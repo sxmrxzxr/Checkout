@@ -4,6 +4,7 @@ import json
 import os
 import requests
 import smtplib
+import uuid
 from datetime import datetime
 from flask import (abort, jsonify, g, session, render_template, redirect,
                    request, url_for)
@@ -98,6 +99,7 @@ def index():
                            hackathons=formatted_hackathons, user=user,
                            client_id=client_id, welcome_msg=welcome_msg,
                            admin=admin)
+
 def admin_required(f):
     '''
         Allows the passed function to only be executed when the user is
@@ -113,6 +115,51 @@ def admin_required(f):
         return redirect(url_for('.index'))
         return f(*args, **kwargs)
     return decorated_function
+
+def login_required(f):
+    '''
+        Allows the passed function to only be executed when the user is
+        logged in
+    :return:
+        decorated function
+    '''
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user' in session:
+            db = client.tudev_checkout
+            found_user = db.users.find_one({'email': session['user']})
+            if found_user:
+                return f(*args, **kwargs)
+        abort(405)
+        return f(*args, **kwargs)
+    return decorated_function
+
+@main.route('/submit_request', methods=['POST'])
+@login_required
+def submit_request():
+    db = client.tudev_checkout
+    data = dict(request.form)
+    print(data)
+    resp = {}
+    resp['success'] = []
+    resp['failed'] = []
+    for item in data:
+        item_name = data[item][0]
+        item_quantity = int(data[item][1])
+        stored_item = db.inventory.find_one({'name': item_name})
+        if(stored_item):
+            if(stored_item['quantity'] >= item_quantity):
+                new_quant = stored_item['quantity'] - item_quantity
+                db.inventory.update({'name': item_name},
+                                    {'$set': {'quantity': new_quant}})
+                resp['success'].append({'name': item_name,
+                                       'quantity': item_quantity})
+            else:
+                resp['failed'].append({'name': item_name,
+                                       'quantity': item_quantity})
+    request_id = str(uuid.uuid4())[:4]
+    resp['id'] = request_id
+    return jsonify(resp)
 
 @main.route('/admin')
 @admin_required
@@ -202,6 +249,7 @@ def authorize():
         return jsonify({'status': 'not logged in'})
 
 @main.route('/request_item', methods=['POST'])
+@login_required
 def request_item():
     data = request.form
     try:

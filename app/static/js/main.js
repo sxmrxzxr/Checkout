@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    console.log("HERE")
     $('#inventory').DataTable({
         "paging": false,
         "autoWidth": false,
@@ -49,7 +48,14 @@ $(document).ready(function() {
                 'content': $('#request_desc').val()
             },
             type : 'POST',
-            url : '/request_item'
+            url : '/request_item',
+            error: function(xhr){
+                    if(xhr.status == 405){
+                        alert("You must be logged in to make request hardware")
+                    }
+                    $("#request_loading").css("display", "none");
+                    event.preventDefault();
+                }
         }).done(function(data) {
             location.reload();
         });
@@ -223,21 +229,37 @@ $(document).ready(function() {
                                      '</span></li><br><br><br>'
                 $('#confirm-request').append(formatted_item)
 
-                items.push({'name': item_name, 'quantity': item_quantity})
+                items.push([item_name, item_quantity])
             }
-            var r_id = "fbe3"
-            var confirmation_message = 'Your request ID is "<u>' + r_id + 
-                                       '</u>". You will be notified when it' +
-                                       ' is ready for pickup.'
-            $('#confirm-message').append(confirmation_message)
-            console.log(items);
-            document.getElementById("overlay").style.display = "block";
+            $.ajax({
+                data : {
+                    'items': items
+                },
+                type : 'POST',
+                url : '/submit_request',
+                error: function(xhr){
+                    if(xhr.status == 405){
+                        alert("You must be logged in to make a hardware request")
+                    }
+                    event.preventDefault();
+                }
+            }).done(function(data) {
+                console.log(data)
+                var r_id = data.id
+                var confirmation_message = 'Your request ID is "<u>' + r_id + 
+                                           '</u>". You will be notified when it' +
+                                           ' is ready for pickup.'
+                $('#confirm-message').append(confirmation_message)
+                console.log(items);
+                document.getElementById("overlay").style.display = "block";
+            });
         }
         event.preventDefault();
     });
 
     $(document).on('click', '#confirm-exit', function(event){
         document.getElementById("overlay").style.display = "none";
+        window.location.reload();
     });
 
 } );
