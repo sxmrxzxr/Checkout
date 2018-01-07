@@ -65,9 +65,12 @@ html, body{
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  height: 500px;
+  min-height: 500px;
+  height: auto;
+  max-height: 80%;
   background-color: white;
   cursor: default;
+  overflow-y: scroll;
 }
 
 /* header stuff */
@@ -178,10 +181,13 @@ li{
     line-height: 20px;
 }
 
-#confirm-request{
-    height: 60%;
+#confirm-request, #failed-items{
+    height: 40%;
     overflow-y: scroll;
 }
+
+
+
 
 #product_quantity{
     float: right;

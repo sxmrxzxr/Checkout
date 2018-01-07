@@ -71,7 +71,7 @@
                   </thead>
                   <tbody>
                     {% if hackathons %}
-                      { hackathons|safe }}
+                      {{ hackathons|safe }}
                     {% endif %}
                   </tbody>
                 </table>
@@ -87,7 +87,7 @@
                   <form id="request_item">
                     <input id="request_name" type="text" placeholder="Name*"
                       required>
-                    <input id="request_email" type="text"
+                    <input id="request_email" type="email"
                       placeholder="Email Address*" required>
                     <input id="request_item_name" type="text"
                       placeholder="Item to request*" required>
@@ -111,6 +111,9 @@
                   <button class="btn btn-info" type="submit">
                     Submit Hardware Request
                   </button>
+                  <span id="cart_loading" style="display: none;">
+                    <p><i class="fa fa-cog fa-spin fa-fw"></i></p>
+                  </span>
                 </form>
               </div>
             </div>
@@ -178,6 +181,8 @@
               <h2>Hardware Request Receipt</h2>
               <hr>
               <ul id="confirm-request">
+              </ul>
+              <ul id="failed-items">
               </ul>
               <h5 id="confirm-message">
               </h5>

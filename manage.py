@@ -14,7 +14,8 @@ app.debug = True
 app.secret_key = os.urandom(32)
 
 manager = Manager(app)
-mongo_url = ('mongodb://checkout:test@ds028310.mlab.com:28310/tudev_checkout',)
+mongo_url = 'mongodb://{0}:{1}@ds028310.mlab.com:28310/tudev_checkout'.format(app.config['DB_USER'],
+                                                                              app.config['DB_PASS'])
 
 print(mongo_url)
 

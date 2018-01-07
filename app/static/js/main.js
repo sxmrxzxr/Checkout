@@ -38,6 +38,11 @@ $(document).ready(function() {
         bFilter: false,
         bInfo: false
     });
+
+    function htmlEncode(value){
+      return $('<div/>').text(value).html();
+    }
+
     $(document).on('submit','#request_item', function(event) {
         $("#request_loading").css("display", "inline-block");
         $.ajax({
@@ -59,7 +64,6 @@ $(document).ready(function() {
         }).done(function(data) {
             location.reload();
         });
-        $('#request_item')[0].reset();
         event.preventDefault();
     });
     $(document).on('submit','#add_hackathon', function(event) {
@@ -184,7 +188,7 @@ $(document).ready(function() {
             }
             $('#cart').empty()
             for(i = 0; i < cart_contents.length; i++){
-                $('#cart').append(cart_contents[i])
+                $('#cart').append(cart_contents[i]);
                 $('#cart').append('<br><br>')
             }
         }else{
@@ -193,7 +197,8 @@ $(document).ready(function() {
             }
 
             var cart_item = '<li id="' + product_name + 
-                            '"><strong id="prod_name">' + product_name + 
+                            '"><strong id="prod_name">' + 
+                            htmlEncode(product_name) + 
                             '</strong><button class=" btn-info cart-btn">X' + 
                             '</button><input type="number" name="item_quanity"' + 
                             'min="1" max="' + max_quantity + '" value="' +
@@ -213,6 +218,7 @@ $(document).ready(function() {
         if($(this)[0].childNodes[1].childNodes[0].data === 'No items in cart'){
             alert("To submit a hardware request you must add items to your cart");
         }else{
+            $("#cart_loading").css("display", "inline-block");
             var items = [];
             var cart_length = $(this)[0].childNodes[1].childNodes.length;
             $('#confirm-request').empty()
@@ -225,11 +231,12 @@ $(document).ready(function() {
                 var formatted_item = '<li align="left">' + 
                                      '<span id="confirm-quantity">' +
                                      item_quantity + 'x </span>' +
-                                     '<span id="con-item">' + item_name + 
+                                     '<span id="con-item">' + 
+                                     htmlEncode(item_name) + 
                                      '</span></li><br><br><br>'
                 $('#confirm-request').append(formatted_item)
 
-                items.push([item_name, item_quantity])
+                items.push([htmlEncode(item_name), item_quantity])
             }
             $.ajax({
                 data : {
@@ -238,15 +245,35 @@ $(document).ready(function() {
                 type : 'POST',
                 url : '/submit_request',
                 error: function(xhr){
+                    $("#cart_loading").css("display", "none");
                     if(xhr.status == 405){
                         alert("You must be logged in to make a hardware request")
                     }
                     event.preventDefault();
                 }
             }).done(function(data) {
+                $("#cart_loading").css("display", "none");
                 console.log(data)
                 var r_id = data.id
-                var confirmation_message = 'Your request ID is "<u>' + r_id + 
+                if(!(data.failed.join('') === '')){
+                    var failed_items = [];
+                    for(i = 0; i < data.failed.length; i++){
+                        var failed_item = data.failed[i];
+                        var formatted_failed_item = '<li>' + 
+                            '<span style="float: left; color: grey">' +
+                            failed_item.quantity + 'x</span>' + 
+                            '<span style="align-text: left;">' +
+                            htmlEncode(failed_item.name) + 
+                            '</span></p><hr><br></li>'
+                        failed_items.push(formatted_failed_item);
+                    }
+                    var failed_message = '<h4>We were unable to checkout the' +
+                                         ' following items</h4>' + 
+                                         failed_items.join(' ')
+                    $('#failed-items').append(failed_message)
+                }
+                var confirmation_message = 'Your request ID is "<u>' + 
+                                            htmlEncode(r_id) + 
                                            '</u>". You will be notified when it' +
                                            ' is ready for pickup.'
                 $('#confirm-message').append(confirmation_message)

@@ -1,3 +1,4 @@
+import cgi
 import email
 import hashlib
 import json
@@ -52,10 +53,10 @@ def index():
         </td>
         </tr>
         '''.format(item_id=item['item_id'], name=item['name'],
-                        quantity=item['quantity'],
-                        reservation_length=item['reservation_length'],
-                        item_category=item['category'],
-                        tutorials_link=item['tutorials_link'])
+                   quantity=item['quantity'],
+                   reservation_length=item['reservation_length'],
+                   item_category=item['category'],
+                   tutorials_link=item['tutorials_link'])
         inventory_list.append(formatted_item)
     formatted_inventory = '\n'.join(inventory_list)
 
@@ -125,6 +126,7 @@ def login_required(f):
     '''
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        print(session)
         if 'user' in session:
             db = client.tudev_checkout
             found_user = db.users.find_one({'email': session['user']})
@@ -157,8 +159,63 @@ def submit_request():
             else:
                 resp['failed'].append({'name': item_name,
                                        'quantity': item_quantity})
+
     request_id = str(uuid.uuid4())[:4]
     resp['id'] = request_id
+
+    # if any items were checked out
+    if(resp['success']):
+        # send emails
+        email_account = session['user']
+        full_account = db.users.find_one({'email': email_account})
+        if(full_account):
+            user_name = full_account['name']
+        else:
+            user_name = None
+        email_server = smtplib.SMTP(app.config['SMTP'])
+
+        email_server.starttls() 
+        email_server.login(app.config['EMAIL_USER'], app.config['EMAIL_PASS'])
+
+        order_msg = email.message.Message()
+        order_msg['Subject'] = 'TUDev Hardware - Item Request'
+        order_msg['From'] = app.config['REQUEST_EMAIL_SEND']
+        order_msg['To'] = 'TUDev Orders'
+        order_msg.add_header('Content-Type', 'text/html')
+
+        items = []
+        for item in resp['success']:
+            formatted_item = '''
+                <li>{quantity}x {name}<hr /></li>
+            '''.format(quantity=item['quantity'], name=item['name'])
+            items.append(formatted_item)
+        items = ''.join(items)
+
+        safe_name = cgi.escape(user_name).encode('ascii', 'xmlcharrefreplace')
+        safe_email = cgi.escape(email_account).encode('ascii',
+                                                      'xmlcharrefreplace')
+
+        email_content = '''
+        <html>
+        <body>
+            <h1>Item Order</h1>
+            <p><strong>From: </strong>{name}</p>
+            <p><strong>Email: </strong>{email_account}</p>
+            <p><strong>Order ID: </strong>{order_id}</p>
+            <p><strong>Items ordered: </strong>
+                <ul>
+                    {items}
+                </ul>
+            </p>
+        </body>
+        </html>'''.format(name=safe_name, email_account=safe_email,
+                          items=items, order_id=request_id)
+
+        order_msg.set_payload(email_content)
+        for account in app.config['REQUEST_EMAIL_ADMINS']:
+            email_server.sendmail(app.config['REQUEST_EMAIL_SEND'],
+                                  account, order_msg.as_string())
+
     return jsonify(resp)
 
 @main.route('/admin')
@@ -228,6 +285,8 @@ def authorize():
     
     response = json.loads(oauth_verify.text)
 
+    print(response)
+
     if response['ok']:
         # set session for user
         session['user'] = response['user']['email']
@@ -263,6 +322,10 @@ def request_item():
         confirm_msg['To'] = email_account
         confirm_msg.add_header('Content-Type', 'text/html')
 
+        safe_name = cgi.escape(name.split(' ')[0]).encode('ascii',
+                                                          'xmlcharrefreplace')
+        safe_item = cgi.escape(item).encode('ascii', 'xmlcharrefreplace')
+
         email_content = '''
         <html>
         <body>
@@ -276,7 +339,7 @@ def request_item():
             The TUDev Team
             </p>
         </body>
-        </html>'''.format(name=name.split(' ')[0], item=item)
+        </html>'''.format(name=safe_name, item=safe_item)
 
         confirm_msg.set_payload(email_content)
 
@@ -294,6 +357,10 @@ def request_item():
         request_msg['To'] = email_account
         request_msg.add_header('Content-Type', 'text/html')
 
+        safe_email = cgi.escape(email_account).encode('ascii',
+                                                      'xmlcharrefreplace')
+        safe_content = cgi.escape(content).encode('ascii', 'xmlcharrefreplace')
+
         email_content = '''
         <html>
         <body>
@@ -303,8 +370,8 @@ def request_item():
             <p><strong>Item Requested: </strong>{item}</p>
             <p><strong>Reason for request</strong><br>{content}</p>
         </body>
-        </html>'''.format(name=name, email_account=email_account, item=item,
-                          content=content)
+        </html>'''.format(name=safe_name, email_account=safe_email, 
+                          item=safe_item, content=safe_content)
 
         request_msg.set_payload(email_content)
         for account in app.config['REQUEST_EMAIL_ADMINS']:
@@ -333,11 +400,15 @@ def add_hackathon():
         link = data['link']
 
         db = client.tudev_checkout
-        db.hackathons.update({'name': name},
+        safe_name = cgi.escape(name).encode('ascii', 'xmlcharrefreplace')
+        safe_location = cgi.escape(location).encode('ascii',
+                                                    'xmlcharrefreplace')
+        safe_date = cgi.escape(date_range).encode('ascii', 'xmlcharrefreplace')
+        db.hackathons.update({'name': safe_name},
                               {
-                              'name': name,
-                              'location': location,
-                              'date_range': date_range,
+                              'name': safe_name,
+                              'location': safe_location,
+                              'date_range': safe_date,
                               'link': link
                               }, upsert=True)
         return jsonify({'Status': 'Hackathon added/updated.'})
@@ -373,14 +444,20 @@ def add_tem():
         if item_id:
             db = client.tudev_checkout
 
+            safe_name = cgi.escape(name).encode('ascii', 'xmlcharrefreplace')
+            safe_res = cgi.escape(res_length).encode('ascii',
+                                                     'xmlcharrefreplace')
+            safe_category = cgi.escape(category).encode('ascii',
+                                                        'xmlcharrefreplace')
+            safe_id = cgi.escape(item_id).encode('ascii', 'xmlcharrefreplace')
             db.inventory.update({'item_id': item_id},
                             {
-                                'name': name,
+                                'name': safe_name,
                                 'quantity': quantity,
-                                'reservation_length': res_length,
-                                'category': category,
+                                'reservation_length': safe_res,
+                                'category': safe_category,
                                 'tutorials_link': tutorial_link,
-                                'item_id': item_id
+                                'item_id': safe_id
                             }, upsert=True)
             return jsonify({'updated': item_id})
         else:
@@ -389,11 +466,17 @@ def add_tem():
             
             db = client.tudev_checkout
 
+            safe_name = cgi.escape(name).encode('ascii', 'xmlcharrefreplace')
+            safe_res = cgi.escape(res_length).encode('ascii',
+                                                     'xmlcharrefreplace')
+            safe_category = cgi.escape(category).encode('ascii',
+                                                        'xmlcharrefreplace')
+
             db.inventory.insert({
-                                'name': name,
+                                'name': safe_name,
                                 'quantity': quantity,
-                                'reservation_length': res_length,
-                                'category': category,
+                                'reservation_length': safe_res,
+                                'category': safe_category,
                                 'tutorials_link': tutorial_link,
                                 'item_id': item_id
                             })
